@@ -32,6 +32,7 @@
 
   const handleVote = (e) => {
     const { id, option } = e.detail;
+    // NOTE:最終的にはコピーしたpollsで上書きしているがこの過程（コピーする）が重要
     let copiedPolls = [...polls];
     let upvotedPoll = copiedPolls.find((poll) => {
       return poll.id === id;
