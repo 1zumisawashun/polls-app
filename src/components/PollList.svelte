@@ -1,4 +1,6 @@
 <script>
+  import { fade, scale } from "svelte/transition";
+  import { flip } from "svelte/animate";
   import PollDetails from "./PollDetails.svelte";
   import PollStore from "../stores/PollStore";
   // import { onDestroy } from "svelte";
@@ -14,9 +16,9 @@
 </script>
 
 <div class="poll-list">
-  <!-- NOTE:直接ループにストアのデータをインジェクトするので本来必要な上記のコードが不要になる -->
+  <!-- NOTE:直接ループにストアのデータをインジェクトするので本来必要な上記のコードが不要になる(unsub含む) -->
   {#each $PollStore as poll (poll.id)}
-    <div>
+    <div in:fade out:scale|local animate:flip="{{ duration: 500 }}">
       <PollDetails poll="{poll}" />
     </div>
   {/each}
