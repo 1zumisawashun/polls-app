@@ -1,6 +1,8 @@
 <script>
   import { createEventDispatcher } from "svelte";
-  // import Button from "../shared/Button.svelte";
+  import PollStore from "../stores/PollStore";
+  // NOTE:ちなみにstoreでexport defaultしているので変数は自由に変えられる
+  import Button from "../shared/Button.svelte";
 
   let dispatch = createEventDispatcher();
   let fields = { question: "", answerA: "", answerB: "" };
@@ -33,7 +35,11 @@
     // add poll
     if (valid) {
       let poll = { ...fields, votesA: 0, votesB: 0, id: Math.random() };
-      dispatch("add", poll);
+      // save poll to store
+      PollStore.update((currentPolls) => {
+        return [poll, ...currentPolls];
+      });
+      dispatch("add");
     }
   };
 </script>
@@ -54,9 +60,7 @@
     <input type="text" id="answer-b" bind:value="{fields.answerB}" />
     <div class="error">{errors.answerB}</div>
   </div>
-  <button on:click="{submitHandler}">Add Poll</button>
-  <!-- 動かない -->
-  <!-- <Button on:click="{submitHandler}">Add Poll</Button> -->
+  <Button type="secondary" on:click="{submitHandler}">Add Poll</Button>
 </div>
 
 <style>

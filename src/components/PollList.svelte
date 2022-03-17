@@ -1,12 +1,23 @@
 <script>
   import PollDetails from "./PollDetails.svelte";
-  export let polls = [];
+  import PollStore from "../stores/PollStore";
+  // import { onDestroy } from "svelte";
+  // export let polls = [];
+  // change data, refire callback functions
+  // const unsub = PollStore.subscribe((data) => {
+  //   polls = data;
+  // });
+  // onDestroy(() => {
+  // unsub from store
+  //   unsub();
+  // });
 </script>
 
 <div class="poll-list">
-  {#each polls as poll (poll.id)}
+  <!-- NOTE:直接ループにストアのデータをインジェクトするので本来必要な上記のコードが不要になる -->
+  {#each $PollStore as poll (poll.id)}
     <div>
-      <PollDetails poll="{poll}" on:vote />
+      <PollDetails poll="{poll}" />
     </div>
   {/each}
 </div>
